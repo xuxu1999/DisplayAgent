@@ -149,3 +149,98 @@ int main()
 
 
 ![image-20230210204526472](./assets/image-20230210204526472.png)
+
+## C++读取配置文件的几种方法
+
+>[C++读取配置文件的几种方法_零点零一的博客-CSDN博客_c++读取配置文件](https://blog.csdn.net/thanklife/article/details/52953475)
+
+```c++
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <string>
+
+class ConfigFile {
+public:
+    ConfigFile(const std::string &filename) : m_filename(filename) {}
+    bool load();
+    bool save();
+    std::string getValue(const std::string &key) const;
+    void setValue(const std::string &key, const std::string &value);
+
+private:
+    std::string m_filename;
+    std::map<std::string, std::string> m_values;
+};
+
+bool ConfigFile::load() {
+    std::ifstream file(m_filename);
+    if (!file.is_open()) {
+        return false;
+    }
+    std::string line;
+    while (std::getline(file, line)) {
+        size_t pos = line.find('=');
+        if (pos != std::string::npos) {
+            std::string key = line.substr(0, pos);
+            std::string value = line.substr(pos + 1);
+            m_values[key] = value;
+        }
+    }
+    file.close();
+    return true;
+}
+
+bool ConfigFile::save() {
+    std::ofstream file(m_filename);
+    if (!file.is_open()) {
+        return false;
+    }
+    for (const auto &pair : m_values) {
+        file << pair.first << "=" << pair.second << std::endl;
+    }
+    file.close();
+    return true;
+}
+
+std::string ConfigFile::getValue(const std::string &key) const {
+    auto it = m_values.find(key);
+    if (it != m_values.end()) {
+        return it->second;
+    }
+    return "";
+}
+
+void ConfigFile::setValue(const std::string &key, const std::string &value) {
+    m_values[key] = value;
+}
+
+```
+
+> 使用
+
+```c++
+int main() {
+    ConfigFile config("config.ini");
+    if (!config.load()) {
+        std::cout << "Failed to load config file" << std::endl;
+        return 1;
+    }
+    std::string value = config.getValue("key");
+    std::cout << "Value of key: " << value << std::endl;
+    config.setValue("key", "new value");
+    if (!config.save()) {
+        std::cout << "Failed to save config file" << std::endl;
+        return 1;
+    }
+    return 0;
+}
+
+```
+
+## [CJson开源库](https://www.bilibili.com/video/BV1z5411s7pk/)
+
+# 资料
+
+https://github.com/0voice
+
