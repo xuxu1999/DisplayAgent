@@ -21,5 +21,6 @@ int main()
 	sub = Clib_sub(6, 4);
 	cout << "sum=" << sum << "\tsub=" << sub << endl;
 	system("pause");
+
 	return 0;
 }
