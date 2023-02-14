@@ -44,7 +44,7 @@ void createXML()
 	root_1_CPU->InsertFirstChild(text_root_1_root_1_CPU);
 
 	//------------
-	//给子节点增加内容
+	//给子节点设置属性
 	//------------
 	root_1_NodeComputerMonitor->SetAttribute("size", "15");
 	root_1_CPU->SetAttribute("series", "XEON");
