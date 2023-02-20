@@ -1,6 +1,21 @@
 #include<Windows.h>
 #include "resource.h"
+#include"ManagerConfigFile.h"
 
+void testManagerConfigFile() {
+	ManagerConfigFile config;
+	config.SetFilePath("./a.ini");
+	string value = "";
+	string error = "";
+	config.GetValue("ServerUrl", "PcName", value, error);
+
+	cout << value << endl;
+	cout << error << endl;
+
+	error = "";
+	config.ModifyValue("ServerUrl", "PcName", "5.0", error);
+	cout << error << endl;
+}
 BOOL CALLBACK DialogProc(HWND hWnd,
 	UINT uMsg,
 	WPARAM wParam,
@@ -15,6 +30,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR lpCmdLine,
 	else if (result == IDYES) {
 		MessageBox(NULL, "点了确定", "提示", MB_OK);
 	}
+
+	//test
+	testManagerConfigFile();
+
 	return 0;
 		
 }
